@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_03_110956) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_05_185829) do
   create_table "sessions", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -23,6 +23,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_03_110956) do
     t.integer "session_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "title"
     t.index ["session_id"], name: "index_timers_on_session_id"
   end
 

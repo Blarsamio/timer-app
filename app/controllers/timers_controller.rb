@@ -18,6 +18,6 @@ class TimersController < ApplicationController
   private
 
   def timer_params
-    params.require(:timer).permit(:duration)
+    params.require(:timer).permit(:duration, :title)
   end
 end
