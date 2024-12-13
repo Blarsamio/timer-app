@@ -10,7 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_05_185829) do
+ActiveRecord::Schema[7.1].define(version: 2024_12_12_165412) do
+  create_table "asanas", force: :cascade do |t|
+    t.string "title"
+    t.text "benefits"
+    t.text "contraindications"
+    t.text "alternatives_and_options"
+    t.text "counterposes"
+    t.text "meridians_and_organs"
+    t.text "joints"
+    t.string "recommended_time"
+    t.text "other_notes"
+    t.text "into_pose"
+    t.text "out_of_pose"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "session_id"
+    t.text "similar_yang_asanas"
+    t.index ["session_id"], name: "index_asanas_on_session_id"
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -27,5 +46,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_05_185829) do
     t.index ["session_id"], name: "index_timers_on_session_id"
   end
 
+  add_foreign_key "asanas", "sessions"
   add_foreign_key "timers", "sessions"
 end
