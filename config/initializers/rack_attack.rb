@@ -107,6 +107,7 @@ else
 end
 
 # Enable logging
-ActiveSupport::Notifications.subscribe('rack.attack') do |name, start, finish, request_id, req|
+ActiveSupport::Notifications.subscribe('rack.attack') do |name, start, finish, request_id, payload|
+  req = payload[:request]
   Rails.logger.info "[Rack::Attack] #{req.env['rack.attack.match_type']} #{req.ip} #{req.request_method} #{req.fullpath}"
 end
