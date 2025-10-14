@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_12_12_165412) do
+ActiveRecord::Schema[7.1].define(version: 2025_10_14_115220) do
+  create_table "api_keys", force: :cascade do |t|
+    t.string "name"
+    t.string "key_digest"
+    t.boolean "active"
+    t.datetime "expires_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "key"
+  end
+
   create_table "asanas", force: :cascade do |t|
     t.string "title"
     t.text "benefits"

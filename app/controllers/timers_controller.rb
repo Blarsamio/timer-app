@@ -3,9 +3,9 @@ class TimersController < ApplicationController
     session = Session.find(params[:session_id])
     timer = session.timers.new(timer_params)
     if timer.save
-      render json: timer, status: :created
+      render_success(timer, status: :created, message: 'Timer created successfully')
     else
-      render json: timer.errors, status: :unprocessable_entity
+      render_error('Failed to create timer', status: :unprocessable_entity, details: timer.errors.full_messages)
     end
   end
 

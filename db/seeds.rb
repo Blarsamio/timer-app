@@ -21,3 +21,22 @@ end
 
 puts 'Asanas created!'
 puts "Created #{Asana.count} asanas."
+
+puts 'Destroying all sessions...'
+Session.destroy_all
+
+puts 'Creating sessions...'
+
+FLOWS.each do |flow|
+  session = Session.create!(
+    name: flow[:name],
+    description: flow[:description] || 'No description provided'
+  )
+
+  flow[:asanas].each do |asana|
+    session.timers.create!(
+      title: asana[:name],
+      duration: asana[:duration]
+    )
+  end
+end

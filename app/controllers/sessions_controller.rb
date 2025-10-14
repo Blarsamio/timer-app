@@ -12,18 +12,18 @@ class SessionsController < ApplicationController
   def create
     session = Session.new(session_params)
     if session.save
-      render json: session, status: :created
+      render_success(session, status: :created, message: 'Session created successfully')
     else
-      render json: session.errors, status: :unprocessable_entity
+      render_error('Failed to create session', status: :unprocessable_entity, details: session.errors.full_messages)
     end
   end
 
   def update
     session = Session.find(params[:id])
     if session.update(session_params)
-      render json: session
+      render_success(session, message: 'Session updated successfully')
     else
-      render json: session.errors, status: :unprocessable_entity
+      render_error('Failed to update session', status: :unprocessable_entity, details: session.errors.full_messages)
     end
   end
 
