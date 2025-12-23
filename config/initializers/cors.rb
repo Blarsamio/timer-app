@@ -8,19 +8,19 @@
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
     # Development and test environments
-    origins Rails.env.development? ? ['localhost:3000', 'localhost:3001', '127.0.0.1:3000'] : []
-    
+    origins Rails.env.development? ? '*' : []
+
     resource '*',
       headers: :any,
       methods: [:get, :post, :put, :patch, :delete, :options, :head],
       credentials: false
   end
-  
+
   # Production configuration - add your frontend domains here
   if Rails.env.production?
     allow do
       origins ENV.fetch('ALLOWED_ORIGINS', '').split(',').map(&:strip)
-      
+
       resource '/api/*',
         headers: :any,
         methods: [:get, :post, :put, :patch, :delete, :options, :head],

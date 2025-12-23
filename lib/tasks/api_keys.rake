@@ -1,14 +1,16 @@
+# frozen_string_literal: true
+
 namespace :api_keys do
   desc "Generate a new API key"
-  task :generate, [:name] => :environment do |task, args|
+  task :generate, [:name] => :environment do |_task, args|
     name = args[:name] || "Development Key"
-    
+
     api_key = ApiKey.create!(
       name: name,
       active: true,
       expires_at: 1.year.from_now
     )
-    
+
     puts "API Key created successfully!"
     puts "Name: #{api_key.name}"
     puts "Key: #{api_key.key}"
@@ -22,14 +24,14 @@ namespace :api_keys do
 
   desc "List all API keys"
   task list: :environment do
-    ApiKey.all.each do |key|
+    ApiKey.find_each do |key|
       status = key.valid_key? ? "✓ Active" : "✗ Inactive"
       puts "#{key.name} - #{status} - Expires: #{key.expires_at&.strftime('%Y-%m-%d')}"
     end
   end
 
   desc "Revoke an API key by ID"
-  task :revoke, [:id] => :environment do |task, args|
+  task :revoke, [:id] => :environment do |_task, args|
     api_key = ApiKey.find(args[:id])
     api_key.update!(active: false)
     puts "API Key '#{api_key.name}' has been revoked"

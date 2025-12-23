@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 class TimersController < ApplicationController
   def create
     session = Session.find(params[:session_id])
     timer = session.timers.new(timer_params)
     if timer.save
-      render_success(timer, status: :created, message: 'Timer created successfully')
+      render_success(TimerBlueprint.render_as_hash(timer), status: :created, message: "Timer created successfully")
     else
-      render_error('Failed to create timer', status: :unprocessable_entity, details: timer.errors.full_messages)
+      render_error("Failed to create timer", status: :unprocessable_entity, details: timer.errors.full_messages)
     end
   end
 

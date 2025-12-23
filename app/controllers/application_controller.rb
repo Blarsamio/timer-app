@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::API
   before_action :authenticate_api_key, unless: :development_mode?
 
+  rescue_from StandardError, with: :internal_server_error
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
   rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
   rescue_from ActionController::ParameterMissing, with: :parameter_missing
-  rescue_from StandardError, with: :internal_server_error
 
   private
 
@@ -16,7 +18,7 @@ class ApplicationController < ActionController::API
     api_key = extract_api_key
 
     unless api_key
-      render_error('API key required', status: :unauthorized)
+      render_error("API key required", status: :unauthorized)
       return
     end
 
@@ -24,14 +26,14 @@ class ApplicationController < ActionController::API
 
     return if @current_api_key
 
-    render_error('Invalid or expired API key', status: :unauthorized)
+    render_error("Invalid or expired API key", status: :unauthorized)
     nil
   end
 
   def extract_api_key
-    if request.headers['Authorization'].present?
-      token = request.headers['Authorization'].split(' ').last
-      return token if token && token != 'Bearer'
+    if request.headers["Authorization"].present?
+      token = request.headers["Authorization"].split.last
+      return token if token && token != "Bearer"
     end
 
     params[:api_key]
@@ -41,7 +43,7 @@ class ApplicationController < ActionController::API
 
   def record_not_found(exception)
     render json: {
-      error: 'Record not found',
+      error: "Record not found",
       message: exception.message,
       status: 404
     }, status: :not_found
@@ -49,16 +51,16 @@ class ApplicationController < ActionController::API
 
   def record_invalid(exception)
     render json: {
-      error: 'Validation failed',
+      error: "Validation failed",
       message: exception.message,
       details: exception.record.errors.full_messages,
       status: 422
-    }, status: :unprocessable_entity
+    }, status: :unprocessable_content
   end
 
   def parameter_missing(exception)
     render json: {
-      error: 'Missing required parameter',
+      error: "Missing required parameter",
       message: exception.message,
       status: 400
     }, status: :bad_request
@@ -69,8 +71,8 @@ class ApplicationController < ActionController::API
     Rails.logger.error exception.backtrace.join("\n")
 
     render json: {
-      error: 'Internal server error',
-      message: Rails.env.production? ? 'Something went wrong' : exception.message,
+      error: "Internal server error",
+      message: Rails.env.production? ? "Something went wrong" : exception.message,
       status: 500
     }, status: :internal_server_error
   end

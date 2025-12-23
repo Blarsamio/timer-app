@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     resources :asanas, only: [:show]
   end
   resources :asanas, only: %i[index show]
+  resources :timers, only: [:destroy]
 
   # Defines the root path route ("/")
   # root "posts#index"

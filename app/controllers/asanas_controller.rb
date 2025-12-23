@@ -1,20 +1,22 @@
+# frozen_string_literal: true
+
 class AsanasController < ApplicationController
   before_action :set_asana, only: [:show]
-  
+
   def index
     asanas = Asana.all
     asanas = asanas.for_session(params[:session_id]) if params[:session_id]
     asanas = asanas.by_title(params[:search]) if params[:search].present?
-    
-    render_success(asanas.order(:title))
+
+    render_success(AsanaBlueprint.render_as_hash(asanas.order(:title)))
   end
 
   def show
-    render_success(@asana)
+    render_success(AsanaBlueprint.render_as_hash(@asana))
   end
-  
+
   private
-  
+
   def set_asana
     @asana = Asana.find(params[:id])
   end
