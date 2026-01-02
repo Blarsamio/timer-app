@@ -22,8 +22,15 @@ class SessionsController < ApplicationController
 
   def update
     session = Session.find(params[:id])
+
+    # Check authorization based on device_id
+    if session.device_id.present? && session.device_id != params[:device_id]
+      render_error("Unauthorized to edit this session", status: :forbidden)
+      return
+    end
+
     if session.update(session_params)
-      render_success(SessionBlueprint.render_as_hash(session), message: "Session updated successfully")
+      render_success(SessionBlueprint.render_as_hash(session, view: :with_timers), message: "Session updated successfully")
     else
       render_error("Failed to update session", status: :unprocessable_entity, details: session.errors.full_messages)
     end
@@ -38,6 +45,6 @@ class SessionsController < ApplicationController
   private
 
   def session_params
-    params.require(:session).permit(:name, :description, timers_attributes: [:duration, :title])
+    params.require(:session).permit(:name, :description, :device_id, timers_attributes: [:id, :duration, :title])
   end
 end

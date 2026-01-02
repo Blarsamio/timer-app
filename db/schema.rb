@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_10_14_115220) do
+ActiveRecord::Schema[7.1].define(version: 2026_01_02_131029) do
   create_table "api_keys", force: :cascade do |t|
     t.string "name"
     t.string "key_digest"
@@ -45,6 +45,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_14_115220) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "description"
+    t.string "device_id"
   end
 
   create_table "timers", force: :cascade do |t|

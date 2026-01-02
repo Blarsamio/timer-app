@@ -1,6 +1,6 @@
 class SessionBlueprint < ApplicationBlueprint
   identifier :id
-  fields :name, :description, :created_at, :updated_at
+  fields :name, :description, :created_at, :updated_at, :device_id
 
   view :with_timers do
     association :timers, blueprint: TimerBlueprint
