@@ -38,6 +38,6 @@ class SessionsController < ApplicationController
   private
 
   def session_params
-    params.require(:session).permit(:name, :description)
+    params.require(:session).permit(:name, :description, timers_attributes: [:duration, :title])
   end
 end
