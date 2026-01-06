@@ -2,10 +2,12 @@ databases:
   - name: timer-db
     databaseName: yoga_timer_api_production
     user: yoga_timer_user
+    plan: free
 
 services:
   - type: web
     name: timer-api
+    plan: free
     env: ruby
     buildCommand: "./bin/render-build.sh"
     startCommand: "bundle exec puma -C config/puma.rb"
