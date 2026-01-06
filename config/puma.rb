@@ -24,7 +24,7 @@ worker_timeout 3600 if ENV.fetch('RAILS_ENV', 'development') == 'development'
 
 # Specifies the IP address and port that Puma will bind to
 # This makes Rails run on localhost:3000 by default
-bind ENV.fetch('BIND_ADDRESS') { 'tcp://0.0.0.0:3000' }
+port ENV.fetch("PORT") { 3000 }
 
 # Specifies the `environment` that Puma will run in.
 environment ENV.fetch('RAILS_ENV') { 'development' }
