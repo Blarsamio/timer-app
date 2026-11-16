@@ -52,6 +52,7 @@ class SessionsController < ApplicationController
   private
 
   def session_params
-    params.require(:session).permit(:name, :description, :device_id, timers_attributes: [:id, :duration, :title])
+    params.require(:session).permit(:name, :description, :device_id, :rebound_seconds,
+                                    timers_attributes: %i[id duration title asana_id position kind side instruction])
   end
 end

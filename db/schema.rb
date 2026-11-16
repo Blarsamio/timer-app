@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_11_16_200100) do
+ActiveRecord::Schema[7.1].define(version: 2026_11_16_210000) do
   create_table "api_keys", force: :cascade do |t|
     t.string "name"
     t.string "key_digest"
@@ -47,6 +47,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_16_200100) do
     t.text "description"
     t.string "device_id"
     t.boolean "preset", default: false, null: false
+    t.integer "rebound_seconds", default: 45, null: false
   end
 
   create_table "timers", force: :cascade do |t|
@@ -58,7 +59,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_16_200100) do
     t.integer "asana_id"
     t.string "instruction"
     t.string "counterpose"
+    t.integer "position", default: 0, null: false
+    t.string "kind", default: "pose", null: false
+    t.string "side"
     t.index ["asana_id"], name: "index_timers_on_asana_id"
+    t.index ["session_id", "position"], name: "index_timers_on_session_id_and_position"
     t.index ["session_id"], name: "index_timers_on_session_id"
   end
 
