@@ -2,8 +2,10 @@
 
 class SessionsController < ApplicationController
   def index
-    sessions = Session.includes(:timers).all
-    render_success(SessionBlueprint.render_as_hash(sessions, view: :with_timers))
+    # Presets plus this device's own sessions. No device_id → presets only.
+    sessions = Session.where(preset: true)
+    sessions = sessions.or(Session.where(device_id: params[:device_id])) if params[:device_id].present?
+    render_success(SessionBlueprint.render_as_hash(sessions.includes(:timers), view: :with_timers))
   end
 
   def show
@@ -23,8 +25,7 @@ class SessionsController < ApplicationController
   def update
     session = Session.find(params[:id])
 
-    # Check authorization based on device_id
-    if session.device_id.present? && session.device_id != params[:device_id]
+    unless session.editable_by?(params[:device_id])
       render_error("Unauthorized to edit this session", status: :forbidden)
       return
     end
@@ -38,6 +39,12 @@ class SessionsController < ApplicationController
 
   def destroy
     session = Session.find(params[:id])
+
+    unless session.editable_by?(params[:device_id])
+      render_error("Unauthorized to delete this session", status: :forbidden)
+      return
+    end
+
     session.destroy
     head :no_content
   end

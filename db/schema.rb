@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_01_02_131029) do
+ActiveRecord::Schema[7.1].define(version: 2026_11_16_200100) do
   create_table "api_keys", force: :cascade do |t|
     t.string "name"
     t.string "key_digest"
@@ -46,6 +46,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_02_131029) do
     t.datetime "updated_at", null: false
     t.text "description"
     t.string "device_id"
+    t.boolean "preset", default: false, null: false
   end
 
   create_table "timers", force: :cascade do |t|
@@ -54,9 +55,14 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_02_131029) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "title"
+    t.integer "asana_id"
+    t.string "instruction"
+    t.string "counterpose"
+    t.index ["asana_id"], name: "index_timers_on_asana_id"
     t.index ["session_id"], name: "index_timers_on_session_id"
   end
 
   add_foreign_key "asanas", "sessions"
+  add_foreign_key "timers", "asanas", on_delete: :nullify
   add_foreign_key "timers", "sessions"
 end

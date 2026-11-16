@@ -10,3 +10,10 @@ RSpec.describe Timer, type: :model do
     it { should belong_to(:session) }
   end
 end
+
+RSpec.describe Timer, 'asana link', type: :model do
+  it 'links to the library asana matching its title' do
+    sphinx = create(:asana, title: 'Sphinx and Seal')
+    expect(create(:timer, title: 'Sphinx').asana).to eq(sphinx)
+  end
+end

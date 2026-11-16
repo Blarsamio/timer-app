@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Sessions', type: :request do
-  let!(:sessions) { create_list(:session, 5) }
+  let!(:sessions) { create_list(:session, 5, preset: true) }
   let(:session_id) { sessions.first.id }
 
   describe 'GET /sessions' do
@@ -14,6 +14,23 @@ RSpec.describe 'Sessions', type: :request do
 
     it 'returns status code 200' do
       expect(response).to have_http_status(200)
+    end
+  end
+
+  describe 'GET /sessions scoping' do
+    let!(:mine) { create(:session, device_id: 'device-a') }
+    let!(:theirs) { create(:session, device_id: 'device-b') }
+
+    it 'returns presets plus only this device\'s sessions' do
+      get '/sessions', params: { device_id: 'device-a' }, headers: headers
+      ids = json.map { |s| s['id'] }
+      expect(ids).to include(mine.id, *sessions.map(&:id))
+      expect(ids).not_to include(theirs.id)
+    end
+
+    it 'returns only presets without a device_id' do
+      get '/sessions', headers: headers
+      expect(json.map { |s| s['id'] }).to match_array(sessions.map(&:id))
     end
   end
 
@@ -66,9 +83,15 @@ RSpec.describe 'Sessions', type: :request do
 
   describe 'PUT /sessions/:id' do
     let(:valid_attributes) { { name: 'Evening Flow' } }
+    let(:own) { create(:session, device_id: 'device-a') }
+
+    it 'forbids editing a preset' do
+      put "/sessions/#{session_id}", params: { session: valid_attributes }, headers: headers
+      expect(response).to have_http_status(403)
+    end
 
     context 'when the record exists' do
-      before { put "/sessions/#{session_id}", params: { session: valid_attributes }, headers: headers }
+      before { put "/sessions/#{own.id}", params: { session: valid_attributes, device_id: 'device-a' }, headers: headers }
 
       it 'updates the record' do
         expect(json['name']).to eq('Evening Flow')
@@ -81,10 +104,22 @@ RSpec.describe 'Sessions', type: :request do
   end
 
   describe 'DELETE /sessions/:id' do
-    before { delete "/sessions/#{session_id}", headers: headers }
+    let!(:own) { create(:session, device_id: 'device-a') }
 
-    it 'returns status code 204' do
+    it 'deletes the device\'s own session' do
+      delete "/sessions/#{own.id}", params: { device_id: 'device-a' }, headers: headers
       expect(response).to have_http_status(204)
+    end
+
+    it 'forbids another device' do
+      delete "/sessions/#{own.id}", params: { device_id: 'device-b' }, headers: headers
+      expect(response).to have_http_status(403)
+      expect(Session.exists?(own.id)).to be true
+    end
+
+    it 'forbids deleting a preset' do
+      delete "/sessions/#{session_id}", headers: headers
+      expect(response).to have_http_status(403)
     end
   end
 end
