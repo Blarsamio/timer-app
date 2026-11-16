@@ -26,6 +26,10 @@ RSpec.describe 'Asanas', type: :request do
         expect(json['id']).to eq(asana_id)
       end
 
+      it 'includes the detail and timing fields the app shows' do
+        expect(json).to include('contraindications', 'meridians_and_organs', 'into_pose', 'out_of_pose', 'min_seconds', 'default_seconds')
+      end
+
       it 'returns status code 200' do
         expect(response).to have_http_status(200)
       end

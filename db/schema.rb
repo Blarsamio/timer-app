@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_11_16_210000) do
+ActiveRecord::Schema[7.1].define(version: 2026_11_16_220000) do
   create_table "api_keys", force: :cascade do |t|
     t.string "name"
     t.string "key_digest"
@@ -37,6 +37,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_16_210000) do
     t.datetime "updated_at", null: false
     t.integer "session_id"
     t.text "similar_yang_asanas"
+    t.integer "min_seconds"
+    t.integer "max_seconds"
+    t.integer "default_seconds"
     t.index ["session_id"], name: "index_asanas_on_session_id"
   end
 

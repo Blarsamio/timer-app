@@ -25,7 +25,7 @@ ASANAS = [
     counterposes: "Point and flex the feet.",
     meridians_and_organs: "Stomach and Spleen meridians.",
     joints: "Ankles and knees.",
-    recommended_time: "Two to four minutes.",
+    recommended_time: "About one minute.",
     similar_yang_asanas: "Hero Pose.",
     other_notes: "This pose helps improve ankle flexibility."
   },
@@ -81,7 +81,7 @@ ASANAS = [
     counterposes: "Child's Pose.",
     meridians_and_organs: "Stimulates Heart and Lung meridians.",
     joints: "Spine and shoulders.",
-    recommended_time: "One to three minutes.",
+    recommended_time: "One to two minutes at most.",
     similar_yang_asanas: "Wheel Pose.",
     other_notes: "Focus on opening the heart and avoiding lower back compression."
   },
@@ -151,7 +151,7 @@ ASANAS = [
     counterposes: "Reclined Twist.",
     meridians_and_organs: "Stimulates the Liver and Gallbladder meridians.",
     joints: "Hips and knees.",
-    recommended_time: "Two to five minutes per side.",
+    recommended_time: "About one minute per side, mainly as a counterpose.",
     similar_yang_asanas: "Lotus Pose.",
     other_notes: "Helps improve hip flexibility and mobility."
   },
@@ -165,7 +165,7 @@ ASANAS = [
     counterposes: "Child's Pose.",
     meridians_and_organs: "Stimulates the Liver, Spleen, and Kidney meridians.",
     joints: "Hips, knees, and spine.",
-    recommended_time: "Two to three minutes per side.",
+    recommended_time: "Three to five minutes per side, or one minute per variation.",
     similar_yang_asanas: "Lunge Pose.",
     other_notes: "Hold each side to feel a deep stretch in the hip flexors."
   },
@@ -179,7 +179,7 @@ ASANAS = [
     counterposes: "Child's Pose or seated forward fold.",
     meridians_and_organs: "Stimulates the Liver and Kidney meridians.",
     joints: "Hips, knees, and pelvis.",
-    recommended_time: "One to three minutes.",
+    recommended_time: "Three to five minutes (half Tadpole, half full Frog).",
     similar_yang_asanas: "Wide-Legged Forward Fold.",
     other_notes: "This is a very deep stretch; use props to make it more accessible."
   },
@@ -207,7 +207,7 @@ ASANAS = [
     counterposes: "Savasana.",
     meridians_and_organs: "Stimulates the Spleen and Stomach meridians.",
     joints: "Spine and hips.",
-    recommended_time: "One to three minutes per side.",
+    recommended_time: "Three to five minutes per side.",
     similar_yang_asanas: "Seated Spinal Twist.",
     other_notes: "Keep the shoulders grounded to deepen the twist."
   },
@@ -221,7 +221,7 @@ ASANAS = [
     counterposes: "Child's Pose.",
     meridians_and_organs: "Stimulates the Kidney and Bladder meridians.",
     joints: "Hips, knees, and spine.",
-    recommended_time: "Two to three minutes.",
+    recommended_time: "One to five minutes.",
     similar_yang_asanas: "Camel Pose.",
     other_notes: "This is an intense hip opener, so use props for support."
   },
@@ -249,7 +249,7 @@ ASANAS = [
     counterposes: "Seated Forward Fold.",
     meridians_and_organs: "Stimulates the Kidney and Bladder meridians.",
     joints: "Hips, knees, and lower back.",
-    recommended_time: "One to three minutes per side.",
+    recommended_time: "Three to five minutes per side.",
     similar_yang_asanas: "Fire Log Pose.",
     other_notes: "This is a deep stretch for the hips, so move slowly into it."
   },
@@ -263,7 +263,7 @@ ASANAS = [
     counterposes: "Child's Pose.",
     meridians_and_organs: "Stimulates the thyroid and nervous system.",
     joints: "Spine and neck.",
-    recommended_time: "One to two minutes.",
+    recommended_time: "Three to five minutes, entered in stages.",
     similar_yang_asanas: "Plow Pose.",
     other_notes: "This is an inversion, so proceed with caution."
   },
@@ -291,7 +291,7 @@ ASANAS = [
     counterposes: "Child's Pose.",
     meridians_and_organs: "Stimulates the Liver and Kidney meridians.",
     joints: "Hips and knees.",
-    recommended_time: "Two to three minutes per side.",
+    recommended_time: "Three to five minutes per side.",
     similar_yang_asanas: "Seated Forward Fold.",
     other_notes: "Keep the spine long while folding forward."
   },

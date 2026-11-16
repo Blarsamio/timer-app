@@ -7,18 +7,19 @@ RSpec.describe Asana, type: :model do
     end
   end
 
-  describe '#duration_in_seconds' do
+  describe 'timing' do
     {
-      'Three to five minutes.' => 240,
-      'Two to three minutes per side.' => 150,
-      'Five to ten minutes.' => 450,
-      '3-5 min' => 240,
-      '4 minutes' => 240,
-      '30-60 seconds' => 45,
-      'whenever' => nil
+      'Three to five minutes.' => [180, 300, 240],
+      'Two to three minutes per side.' => [120, 180, 150],
+      'About one minute per side, mainly as a counterpose.' => [60, 60, 60],
+      'Three to five minutes per side, or one minute per variation.' => [180, 300, 240],
+      '3-5 min' => [180, 300, 240],
+      '30-60 seconds' => [30, 60, 45],
+      'whenever' => [nil, nil, nil]
     }.each do |text, expected|
-      it "parses #{text.inspect} as #{expected.inspect}" do
-        expect(build(:asana, recommended_time: text).duration_in_seconds).to eq(expected)
+      it "derives #{expected.inspect} from #{text.inspect} on save" do
+        asana = create(:asana, recommended_time: text)
+        expect(asana.values_at(:min_seconds, :max_seconds, :default_seconds)).to eq(expected)
       end
     end
   end
