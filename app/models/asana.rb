@@ -59,19 +59,27 @@ class Asana < ApplicationRecord
     find_by(title: name) || (library_title && find_by(title: library_title))
   end
 
-  # Midpoint of the recommended range in seconds. "Three to five minutes." → 240, "30-60 sec" → 45.
-  def duration_in_seconds
-    return nil if recommended_time.blank?
+  before_save :derive_timing, if: :recommended_time_changed?
 
-    text = recommended_time.downcase.gsub(/\b(#{NUMBER_WORDS.join('|')})\b/) { NUMBER_WORDS.index(::Regexp.last_match(1)).to_s }
+  # Range in seconds from the human text; default is the midpoint.
+  # "Three to five minutes." → 180/300/240, "About one minute." → 60/60/60, "30-60 seconds" → 30/60/45.
+  def self.timing_for(text)
+    text = text.to_s.downcase.gsub(/\b(#{NUMBER_WORDS.join('|')})\b/) { NUMBER_WORDS.index(::Regexp.last_match(1)).to_s }
     numbers = text.scan(/\d+/).first(2).map(&:to_i)
-    return nil if numbers.empty?
+    return { min_seconds: nil, max_seconds: nil, default_seconds: nil } if numbers.empty?
 
     unit = text.match?(/sec/) && !text.match?(/min/) ? 1 : 60
-    (numbers.sum * unit) / numbers.size
+    min, max = numbers.map { |n| n * unit }.minmax
+    { min_seconds: min, max_seconds: max, default_seconds: (min + max) / 2 }
   end
 
   def display_title
     title&.titleize
+  end
+
+  private
+
+  def derive_timing
+    assign_attributes(self.class.timing_for(recommended_time))
   end
 end
