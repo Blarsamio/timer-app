@@ -1,5 +1,8 @@
 require_relative '../app/assets/constants'
 
+puts 'Destroying all sessions...'
+Session.destroy_all
+
 puts 'Destroying all asanas...'
 Asana.destroy_all
 
@@ -22,21 +25,21 @@ end
 puts 'Asanas created!'
 puts "Created #{Asana.count} asanas."
 
-puts 'Destroying all sessions...'
-Session.destroy_all
-
 puts 'Creating sessions...'
 
 FLOWS.each do |flow|
   session = Session.create!(
     name: flow[:name],
+    preset: true,
     description: flow[:description] || 'No description provided'
   )
 
   flow[:asanas].each do |asana|
     session.timers.create!(
       title: asana[:name],
-      duration: asana[:duration]
+      duration: asana[:duration],
+      instruction: asana[:instruction].presence,
+      counterpose: asana[:counterpose].presence
     )
   end
 end
